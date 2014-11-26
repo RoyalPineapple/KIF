@@ -56,8 +56,7 @@
     [tester tapViewWithAccessibilityLabel:@"UIActivityViewController"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Copy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
-    [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    [tester tapViewWithAccessibilityLabel:@"Copy"];
 }
 
 @end
