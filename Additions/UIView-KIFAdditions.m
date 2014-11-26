@@ -223,13 +223,18 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 if (indexPath) {
                     [indexPathsForVisibleRows addObject:indexPath];
                 }
-            }];
+                
+                @autoreleasepool {
+                    // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                    UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
 
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
-                for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
-                    // Skip visible rows because they are already handled
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-                    if ([indexPathsForVisibleRows containsObject:indexPath]) {
+                    // Remove the cell from the collection view so that it doesn't stick around
+                    [cell removeFromSuperview];
+                    
+                    // Skip this cell if it isn't the one we're looking for
+                    // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
+                    if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
                         continue;
                     }
 
@@ -255,7 +260,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];
                 }
-            }
+                
         } else if ([self isKindOfClass:[UICollectionView class]]) {
             UICollectionView *collectionView = (UICollectionView *)self;
 
@@ -285,12 +290,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         }
                     }
 
-                    // Scroll to the cell and wait for the animation to complete
-                    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+                // Scroll to the cell and wait for the animation to complete
+                [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
 
-                    // Now try finding the element again
-                    return [self accessibilityElementMatchingBlock:matchBlock];
+                
+                // Now try finding the element again
+                return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
         }
@@ -850,10 +856,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             } else {
                 control = (id)control.superview;
             }
+                
         }
     }
 
     return isUserInteractionEnabled;
+    
 }
 
 - (BOOL)isNavigationItemView;
