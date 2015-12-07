@@ -37,7 +37,6 @@
 
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
 {
-
     [self _appendPredicate:predicate];
     return  self;
 }
