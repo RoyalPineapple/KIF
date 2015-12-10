@@ -113,6 +113,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 }
 
 #pragma mark - Screenshotting
+
 - (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 {
     NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
@@ -127,6 +128,13 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     if (windows.count == 0) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Could not take screenshot.  No windows were available."];
+        }
+        return NO;
+    }
+    
+    if (!filename.length) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Missing screenshot filename."];
         }
         return NO;
     }
@@ -161,6 +169,8 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     if (description) {
         imageName = [imageName stringByAppendingFormat:@", %@", description];
     }
+
+    NSString *imageName = [self imageNameForFile:filename lineNumber:lineNumber description:description];
     
     outputPath = [outputPath stringByAppendingPathComponent:imageName];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
@@ -173,6 +183,24 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
     
     return YES;
+}
+
+- (NSString *)imageNameForFile:(NSString *)filename lineNumber:(NSUInteger)lineNumber description:(NSString *)description {
+    if (!filename.length) {
+        return nil;
+    }
+    
+    NSString *imageName = [filename lastPathComponent];
+    
+    if (lineNumber > 0) {
+        imageName = [imageName stringByAppendingFormat:@", line %lu", (unsigned long)lineNumber];
+    }
+    
+    if (description.length) {
+        imageName = [imageName stringByAppendingFormat:@", %@", description];
+    }
+
+    return imageName;
 }
 
 #pragma mark - Run loop monitoring
