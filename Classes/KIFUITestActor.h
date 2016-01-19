@@ -249,6 +249,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view;
 
 /*!
+ @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
+ @discussion This will locate the left or right half of the stepper and perform a calculated click.
+ @param label The accessibility identifier of the view to interact with.
+ @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
+ */
+-(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection;
+
+/*!
  @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
@@ -679,8 +687,9 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param indexPath Index path of the row to swipe.
  @param tableView Table view to operate on.
  @param direction Direction of the swipe.
-- (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
 */
+- (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
+
 
 /*!
  @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button

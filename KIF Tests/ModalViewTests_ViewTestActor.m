@@ -20,6 +20,7 @@
 
 - (void)testInteractionWithAnAlertView
 {
+\
     [[viewTester usingAccessibilityLabel:@"UIAlertView"] tap];
     [[viewTester usingAccessibilityLabel:@"Alert View"] waitForView];
     [[viewTester usingAccessibilityLabel:@"Message"] waitForView];
@@ -41,6 +42,9 @@
         [viewTester dismissPopover];
     } else {
         [[viewTester usingAccessibilityLabel:@"Cancel"] tap];
+        [[viewTester usingAccessibilityLabel:@"Alert View"] waitForView];
+        [[viewTester usingAccessibilityLabel:@"Continue"] tap];
+        [[viewTester usingAccessibilityLabel:@"Alert View"] waitForAbsenceOfView];
     }
 }
 
@@ -55,6 +59,9 @@
     [[viewTester usingAccessibilityLabel:@"Mail"] waitToBecomeTappable];
     [[viewTester usingAccessibilityLabel:@"Cancel"] waitToBecomeTappable];
     [[viewTester usingAccessibilityLabel:@"Cancel"] tap];
+    
+    
+    
 }
 
 @end

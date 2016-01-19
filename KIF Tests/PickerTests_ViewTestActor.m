@@ -71,7 +71,7 @@
     [[viewTester dateTimeSelector] tap];
     NSArray *dateTime = @[ @"Jun 17", @"6", @"43", @"AM" ];
     [viewTester selectDatePickerValue:dateTime];
-    [[[[viewTester dateTimeSelector] usingValue:@"Sunday, Jun 17, 06:43 AM"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester dateTimeSelector] usingValue:@"Jun 17, 06:43 AM"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testSelectingTime

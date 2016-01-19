@@ -800,7 +800,7 @@
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
 }
 
-- (BOOL)acknowledgeSystemAlert {
+- (BOOL)acknowledgeSystemAlert
 {
     return [UIAutomationHelper acknowledgeSystemAlert];
 }
@@ -838,8 +838,6 @@
 
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction
 {
-    const NSUInteger kNumberOfPointsInSwipePath = 20;
-
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
   
     const NSUInteger kNumberOfPointsInSwipePath = 20;

@@ -18,6 +18,11 @@
     [tester waitForTimeInterval:0.25];
 }
 
+- (void)afterEach;
+{
+    [tester waitForTimeInterval:0.25];
+}
+
 - (void)testInteractionWithAnAlertView
 {
     [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
@@ -58,6 +63,7 @@
     [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
     [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Cancel"];
 }
 
 @end

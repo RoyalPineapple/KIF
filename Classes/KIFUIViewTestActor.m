@@ -244,7 +244,7 @@
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor swipeElement:found.element inView:found.view inDirection:direction];
+    [self.actor swipeAccessibilityElement:found.element inView:found.view inDirection:direction];
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
